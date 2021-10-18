@@ -1,0 +1,1 @@
+# Akeneo TypeScript API Client
