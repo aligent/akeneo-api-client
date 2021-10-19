@@ -13,11 +13,6 @@ export interface AkeneoConfig {
 	oauthClientSecret: string,
 }
 
-interface AkeneoHeaders {
-	'Content-Type': string,
-	'Authorization': string
-}
-
 interface PatchRequestData {
 	entity: string;
 	id: string;
@@ -41,7 +36,7 @@ export class AkeneoClient {
 	 * @return {Promise<AxiosResponse>} The response from the Akeneo API
 	 */
 	authenticate = (): Promise<Akeneo.AuthenticationResponse> => {
-		const { host, username, password } = this.config;
+		const { host, username, password, oauthClientId, oauthClientSecret } = this.config;
 
 		const data = {
 			username: username,
@@ -50,9 +45,14 @@ export class AkeneoClient {
 		};
 
 		const tokenURL = `https://${host}/api/oauth/v1/token`;
-		const headers = this.getHeaders();
+		const credentials = Buffer.from(`${oauthClientId}:${oauthClientSecret}`).toString('base64');
 
-		return axios.post(tokenURL, data, { headers }).then(function (response) {
+		return axios.post(tokenURL, data, {
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Basic ${credentials}`
+			}
+		}).then(function (response) {
 			if (!("access_token" in response.data &&
 				"refresh_token" in response.data)) {
 				throw Error('Invalid repsonse from Akeneo / token endpoint.');
@@ -64,16 +64,6 @@ export class AkeneoClient {
 			} as Akeneo.AuthenticationResponse
 		});
 	};
-
-	getHeaders(): AkeneoHeaders {
-		const { oauthClientId: oauth_client_id, oauthClientSecret: oauth_client_secret } = this.config;
-		const credentials = Buffer.from(`${oauth_client_id}:${oauth_client_secret}`).toString('base64');
-
-		return {
-			'Content-Type': 'application/json',
-			'Authorization': `Basic ${credentials}`
-		}
-	}
 
 	/**
 	 * Performs a patch request against the Akeneo API for the given product.
