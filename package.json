@@ -1,0 +1,45 @@
+{
+  "name": "akeneo-ts-api",
+  "version": "0.1.0",
+  "description": "Akeneo API in TypeScript",
+  "engines": {
+    "node": ">=14.16"
+  },
+  "scripts": {
+    "test": "jest --setupFiles dotenv/config",
+    "lint": "eslint . --ext .ts"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "source-map-support": "^0.5.10",
+    "xml2js": "^0.4.23"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.23",
+    "@types/node": "^14.14.41",
+    "@types/xml2js": "^0.4.9",
+    "@typescript-eslint/eslint-plugin": "^4.28.4",
+    "@typescript-eslint/parser": "^4.28.4",
+    "dotenv": "^10.0.0",
+    "eslint": "^7.31.0",
+    "jest": "^27.0.4",
+    "ts-jest": "^27.0.3",
+    "ts-loader": "^9.1.1",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aligent/akeneo-api-client.git"
+  },
+  "keywords": [
+    "akeneo",
+    "typescript"
+  ],
+  "author": "John Smith",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aligent/akeneo-api-client/issues"
+  },
+  "homepage": "https://github.com/aligent/akeneo-api-client#readme"
+}
